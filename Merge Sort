@@ -1,0 +1,90 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+
+
+
+void merg(int arr[] , int l ,  int mid , int r)
+{
+    int p = mid-l+1;
+    int w = r-mid;
+    int arr1[p];
+    int arr2[w];
+    int x=0 , k=0 ;
+    for(int i =l ; i<=mid ; i++)
+    {
+        arr1[x]=arr[i];
+        x++;
+    }
+for(int i=mid+1 ; i<=r ; i++)
+    {
+        arr2[k]=arr[i];
+
+        k++;
+    }
+
+
+ int s=0;
+ int h=0;
+ int t=l;
+  while ( s<p && h<w  )
+  {
+      if ( arr1[s]<arr2[h])
+      {
+          arr[t]=arr1[s];
+          s++;
+          t++;
+      }
+      else
+      {
+          arr[t]=arr2[h];
+          h++;
+          t++;
+      }
+  }
+while(h<w)
+  {
+      arr[t++]=arr2[h++];
+  }
+while (s<p)
+  {
+      arr[t++]=arr1[s++];
+  }
+
+
+}
+void mrgsort(int arr[],int l,int r)
+{
+    if (l<r){
+     int mid=(l+r)/2;
+
+     mrgsort(arr, l,  mid);
+
+     mrgsort(arr, mid+1, r);
+
+     merg(arr,l,mid,r);
+    }
+}
+int main()
+{
+    int n ;
+    cout<<"input array size :" ;
+    cin >>n ;
+    int arr[n]  ;
+
+
+     for (int i=0 ; i<n; i++)
+     {
+         arr[i]=rand()%100;
+     }
+     cout <<" value of array : ";
+
+     mrgsort(arr,0,n-1);
+
+  for ( int i=0 ; i<n; i++ )
+     {
+         cout<< arr[i] << " " ;
+     }
+
+   return 0;
+}
