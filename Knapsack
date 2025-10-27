@@ -1,0 +1,82 @@
+#include<iostream>
+using namespace std;
+
+struct items {
+    float weight;
+    float profit;
+    float wpp; // profit per weight
+};
+
+void swap(items &a, items &b) {
+    items temp = a;
+    a = b;
+    b = temp;
+}
+
+int partition(items arr[], int lb, int ub) {
+    float pivot = arr[lb].wpp;
+    int start = lb;
+    int end = ub;
+
+    while (start < end) {
+        while (start <= ub && arr[start].wpp >= pivot)
+            start++;
+        while (end >= lb && arr[end].wpp < pivot)
+            end--;
+        if (start < end)
+            swap(arr[start], arr[end]);
+    }
+
+    swap(arr[lb], arr[end]);
+    return end;
+}
+
+void quicksort(items arr[], int lb, int ub) {
+    if (lb < ub) {
+        int loc = partition(arr, lb, ub);
+        quicksort(arr, lb, loc - 1);
+        quicksort(arr, loc + 1, ub);
+    }
+}
+
+float fractionalknapsack(items item[], int n, float capacity) {
+    quicksort(item, 0, n - 1);
+    float total_profit = 0.0;
+    float wt_taken = 0.0;
+
+    for (int i = 0; i < n; i++) {
+        if (wt_taken + item[i].weight <= capacity) {
+            total_profit += item[i].profit;
+            wt_taken += item[i].weight;
+        } else {
+            float remain = capacity - wt_taken;
+            total_profit += remain * item[i].wpp;
+            break; // knapsack full
+        }
+    }
+
+    return total_profit;
+}
+
+int main() {
+    int n;
+    float capacity;
+
+    cout << "Enter number of items: ";
+    cin >> n;
+
+    items item[n];
+    cout << "Enter weight and profit of each item:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> item[i].weight >> item[i].profit;
+        item[i].wpp = item[i].profit / item[i].weight;
+    }
+
+    cout << "Enter knapsack capacity: ";
+    cin >> capacity;
+
+    float maxprofit = fractionalknapsack(item, n, capacity);
+    cout << "Max profit: " << maxprofit << endl;
+
+    return 0;
+}
