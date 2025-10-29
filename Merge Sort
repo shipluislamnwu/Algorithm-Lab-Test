@@ -1,13 +1,12 @@
-#include<iostream>
-#include<cstdlib>
+/// Merge sort.
+#include <iostream>
 using namespace std;
 
-void merg(int arr[], int l, int mid, int r) {
+void merge(int arr[], int l, int mid, int r) {
     int p = mid - l + 1;
     int w = r - mid;
 
-    int *arr1 = new int[p];
-    int *arr2 = new int[w];
+    int arr1[p], arr2[w]; 
 
     for (int i = 0; i < p; i++)
         arr1[i] = arr[l + i];
@@ -17,7 +16,7 @@ void merg(int arr[], int l, int mid, int r) {
     int s = 0, h = 0, t = l;
 
     while (s < p && h < w) {
-        if (arr1[s] < arr2[h])
+        if (arr1[s] <= arr2[h])
             arr[t++] = arr1[s++];
         else
             arr[t++] = arr2[h++];
@@ -27,40 +26,37 @@ void merg(int arr[], int l, int mid, int r) {
         arr[t++] = arr1[s++];
     while (h < w)
         arr[t++] = arr2[h++];
-
-    delete[] arr1;
-    delete[] arr2;
 }
 
-void mrgsort(int arr[], int l, int r) {
+void mergeSort(int arr[], int l, int r) {
     if (l < r) {
         int mid = (l + r) / 2;
-        mrgsort(arr, l, mid);
-        mrgsort(arr, mid + 1, r);
-        merg(arr, l, mid, r);
+        mergeSort(arr, l, mid);
+        mergeSort(arr, mid + 1, r);
+        merge(arr, l, mid, r);
     }
 }
 
 int main() {
     int n;
-    cout << "Input array size: ";
+    cout << "Enter array size: ";
     cin >> n;
 
-    int arr[n];
+    int arr[n]; 
+    cout << "Enter " << n << " elements: ";
     for (int i = 0; i < n; i++)
-        arr[i] = rand() % 100;
+        cin >> arr[i];
 
-    cout << "Before sorting: ";
-    for (int i = 0; i < n; i++)
-        cout << arr[i] << " ";
-    cout << endl;
-
-    mrgsort(arr, 0, n - 1);
-
-    cout << "After sorting: ";
+    cout << "\nBefore sorting: ";
     for (int i = 0; i < n; i++)
         cout << arr[i] << " ";
-    cout << endl;
 
+    mergeSort(arr, 0, n - 1);
+
+    cout << "\nAfter sorting: ";
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+
+    cout << endl;
     return 0;
 }
