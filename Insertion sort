@@ -7,8 +7,7 @@ int main()
     cout<<"Enter the array range: ";
     cin>>n;
     int a[n];
-
-
+    cout<<"Enter the array element: ";
     for(i=0; i<n; i++)
     {
         cin>>a[i];
