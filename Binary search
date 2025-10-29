@@ -1,0 +1,39 @@
+/// Binary search.
+#include<iostream>
+using namespace std;
+int main()
+{
+    int s,e,m,n,i,r;
+    cout<<"Enter the range of array: ";
+    cin>>r;
+    int a[r];
+    cout<<"Enter the sorted array: ";
+    for(i=0; i<r; i++)
+    {
+        cin>>a[i];
+    }
+    cout<<"Enter the number you want to find: ";
+    cin>>n;
+    s = 0;
+    e = r;
+    m=(s+e)/2;
+    while(s<=e)
+    {
+        if(a[m]==n)
+        {
+            cout<<"The value is found at "<<m;
+            return 0;
+        }
+        else if(n<a[m])
+        {
+            e=m-1;
+        }
+        else
+        {
+            s=m+1;
+        }
+        m=(s+e)/2;
+    }
+    cout<<"The value is not found.";
+    return 0;
+}
