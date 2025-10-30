@@ -8,40 +8,22 @@ struct items {
     float wpp; // profit per weight
 };
 
-void swap(items &a, items &b) {
-    items temp = a;
-    a = b;
-    b = temp;
-}
+void insertionSort(items arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        items key = arr[i];
+        int j = i - 1;
 
-int partition(items arr[], int lb, int ub) {
-    float pivot = arr[lb].wpp;
-    int start = lb;
-    int end = ub;
-
-    while (start < end) {
-        while (start <= ub && arr[start].wpp >= pivot)
-            start++;
-        while (end >= lb && arr[end].wpp < pivot)
-            end--;
-        if (start < end)
-            swap(arr[start], arr[end]);
-    }
-
-    swap(arr[lb], arr[end]);
-    return end;
-}
-
-void quicksort(items arr[], int lb, int ub) {
-    if (lb < ub) {
-        int loc = partition(arr, lb, ub);
-        quicksort(arr, lb, loc - 1);
-        quicksort(arr, loc + 1, ub);
+        // Sort in descending order by wpp
+        while (j >= 0 && arr[j].wpp < key.wpp) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
     }
 }
 
 float fractionalknapsack(items item[], int n, float capacity) {
-    quicksort(item, 0, n - 1);
+    insertionSort(item, n);
     float total_profit = 0.0;
     float wt_taken = 0.0;
 
